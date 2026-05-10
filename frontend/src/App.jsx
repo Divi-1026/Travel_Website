@@ -9,6 +9,8 @@ import WeddingRentals from './pages/WeddingRentals';
 import DestinationDetails from './pages/DestinationDetails';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import { Book } from 'lucide-react';
+import BookingPage from './pages/Booking';
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
             <Route path="wedding" element={<WeddingRentals />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
+            <Route path="booking" element={<BookingPage/>} />
           </Route>
         </Routes>
       </div>

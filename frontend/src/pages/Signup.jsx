@@ -22,6 +22,7 @@ const Signup = () => {
     
     try {
       // In Phase 1, we might just mock this or hit the backend if it's running
+      console.log('Submitting registration:', formData); // Debug log
       const { data } = await axios.post('http://localhost:5000/api/auth/register', formData);
       login(data, data.token);
       navigate('/');

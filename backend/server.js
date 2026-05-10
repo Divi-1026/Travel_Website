@@ -7,7 +7,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 
 import authRoutes from './routes/authRoutes.js';
-
+import paymentrouter from './routes/paymentRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -21,7 +21,10 @@ const io = new Server(server, {
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
 app.use(express.json());
 
 // Socket.io for Real-time Admin Dashboard
@@ -38,10 +41,10 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
-
+console.log("Called server.js"); // Debug log
 // Routes
 app.use('/api/auth', authRoutes);
-
+app.use('/api/payment', paymentrouter);
 // Database Connection
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/starline_travel';

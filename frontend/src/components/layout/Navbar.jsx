@@ -8,7 +8,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark mode based on screens
-
+ 
+ const [showProfileMenu, setShowProfileMenu] = useState(false);
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
@@ -88,20 +89,37 @@ const Navbar = () => {
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2 text-textPrimary dark:text-white">
-                  <User size={18} />
-                  <span className="text-sm font-bold">{user?.name}</span>
-                </div>
-                <button
-                  onClick={() => { logout(); navigate('/'); }}
-                  className="text-sm font-semibold text-textSecondary dark:text-gray-300 hover:text-accent transition-colors"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
+           {isAuthenticated ? (
+  <div className="relative">
+    
+    <button
+      onClick={() => setShowProfileMenu(!showProfileMenu)}
+      className="flex items-center space-x-2 text-textPrimary dark:text-white"
+    >
+      <User size={18} />
+      <span className="text-sm font-bold">{user?.name}</span>
+    </button>
+
+    {showProfileMenu && (
+      <div className="absolute right-0 mt-3 w-40 bg-white dark:bg-darkBackground border border-borderLight dark:border-borderDark rounded-2xl shadow-xl py-2">
+        
+        <button
+          onClick={() => {
+            logout();
+            navigate('/');
+          }}
+          className="w-full text-left px-4 py-2 text-sm font-medium text-textSecondary dark:text-gray-300 hover:text-accent hover:bg-black/5 dark:hover:bg-white/5"
+        >
+          Logout
+        </button>
+        <button className="w-full text-left px-4 py-2 text-sm font-medium text-textSecondary dark:text-gray-300 hover:text-accent hover:bg-black/5 dark:hover:bg-white/5"
+        >Profile</button>
+
+      </div>
+    )}
+
+  </div>
+) : (
               <Link
                 to="/signup"
                 className="text-sm font-semibold text-textSecondary dark:text-gray-300 hover:text-accent transition-colors"
@@ -157,18 +175,30 @@ const Navbar = () => {
               </NavLink>
             ))}
             {isAuthenticated ? (
-              <div className="pt-4 px-4 space-y-3 border-t border-borderLight dark:border-borderDark">
-                <div className="flex items-center space-x-2 text-textPrimary dark:text-white">
-                  <User size={18} />
-                  <span className="text-sm font-bold">{user?.name}</span>
-                </div>
-                <button
-                  onClick={() => { logout(); setIsMobileMenuOpen(false); navigate('/'); }}
-                  className="block w-full text-left text-textSecondary dark:text-gray-400 hover:text-accent font-semibold"
-                >
-                  Logout
-                </button>
-              </div>
+             <div className="pt-4 px-4 space-y-3 border-t border-borderLight dark:border-borderDark">
+  
+  <button
+    onClick={() => setShowProfileMenu(!showProfileMenu)}
+    className="flex items-center space-x-2 text-textPrimary dark:text-white"
+  >
+    <User size={18} />
+    <span className="text-sm font-bold">{user?.name}</span>
+  </button>
+
+  {showProfileMenu && (
+    <button
+      onClick={() => {
+        logout();
+        setIsMobileMenuOpen(false);
+        navigate('/');
+      }}
+      className="block w-full text-left text-textSecondary dark:text-gray-400 hover:text-accent font-semibold"
+    >
+      Logout
+    </button>
+  )}
+
+</div>
             ) : (
               <div className="pt-2 px-1">
                 <Link
